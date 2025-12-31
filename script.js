@@ -2,54 +2,59 @@ function openForm() {
   document.getElementById("formPopup").style.display = "block";
 }
 
-function closeForm() {
-  document.getElementById("formPopup").style.display = "none";
-}
-
 function sendRequest() {
-  const name = document.getElementById("studentName").value.trim();
-  const cls = document.getElementById("studentClass").value.trim();
-  const parentEmail = document.getElementById("parentEmail").value.trim();
-  const phone = document.getElementById("parentPhone").value.trim();
-  const country = document.getElementById("country").value.trim();
-  const timezone = document.getElementById("timezone").value.trim();
-  const classDate = document.getElementById("classDate").value;
-  const classTime = document.getElementById("classTime").value;
+  const data = {
+    studentName: document.getElementById("studentName").value.trim(),
+    studentClass: document.getElementById("studentClass").value.trim(),
+    parentEmail: document.getElementById("parentEmail").value.trim(),
+    parentPhone: document.getElementById("parentPhone").value.trim(),
+    country: document.getElementById("country").value.trim(),
+    timezone: document.getElementById("timezone").value.trim(),
+    classDate: document.getElementById("classDate").value,
+    classTime: document.getElementById("classTime").value
+  };
 
-  if (
-    !name || !cls || !parentEmail || !phone ||
-    !country || !timezone || !classDate || !classTime
-  ) {
-    alert("Please fill all details");
-    return;
+  for (let key in data) {
+    if (!data[key]) {
+      alert("Please fill all details");
+      return;
+    }
   }
 
-  const yourPhone = "918892193291"; // 🔁 your number
+  // 🔁 PASTE YOUR WEB APP URL BELOW
+  const sheetURL = "https://script.google.com/macros/s/AKfycbwgn-663krLJNxxsO-LyBv7PP77mo-faak71OmIG2rtmSx2OlFxz2Rkmy_alOw9pXAL/exec";
+
+  fetch(sheetURL, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  const yourPhone = "918892193291"; // your number
 
   const message =
     `*Math Made Easy*\n` +
     `Demo Class\n\n` +
-    `Student Name: ${name}\n` +
-    `Class: ${cls}\n` +
-    `Parent Email: ${parentEmail}\n` +
-    `Parent Phone: ${phone}\n` +
-    `Country: ${country}\n` +
-    `Time Zone: ${timezone}\n` +
-    `Preferred Date: ${classDate}\n` +
-    `Preferred Time: ${classTime} (${timezone})\n\n` +
+    `Student Name: ${data.studentName}\n` +
+    `Class: ${data.studentClass}\n` +
+    `Parent Email: ${data.parentEmail}\n` +
+    `Parent Phone: ${data.parentPhone}\n` +
+    `Country: ${data.country}\n` +
+    `Time Zone: ${data.timezone}\n` +
+    `Preferred Date: ${data.classDate}\n` +
+    `Preferred Time: ${data.classTime} (${data.timezone})\n\n` +
     `Thank you for reaching us. We will answer shortly.`;
 
   const encodedMsg = encodeURIComponent(message);
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-  // 📱 Mobile → Messages (SMS)
+  alert("Thank you! Your demo request has been submitted.");
+
   if (isMobile) {
     window.location.href = `sms:${yourPhone}?body=${encodedMsg}`;
-    const whatsappApp    = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
     return;
   }
 
-  // 💻 Laptop → WhatsApp app if installed, else WhatsApp Web
   const whatsappApp = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
   const whatsappWeb = `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
 
