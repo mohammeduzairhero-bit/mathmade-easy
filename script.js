@@ -22,7 +22,7 @@ function sendRequest() {
   }
 
   // 🔁 PASTE YOUR WEB APP URL BELOW
-  const sheetURL = "https://script.google.com/macros/s/AKfycbwgn-663krLJNxxsO-LyBv7PP77mo-faak71OmIG2rtmSx2OlFxz2Rkmy_alOw9pXAL/exec";
+  const sheetURL = "https://script.google.com/macros/s/AKfycbygFjp99gv9B35KsdcL91xElZqNDCPnoBbKHfTsPxoRfy4lhQ4C5JhAaP8k7_zGJ1_M/exec";
 
   fetch(sheetURL, {
     method: "POST",
@@ -63,3 +63,4 @@ function sendRequest() {
     window.open(whatsappWeb, "_blank");
   }, 1200);
 }
+
