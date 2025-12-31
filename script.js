@@ -22,7 +22,7 @@ function sendRequest() {
   }
 
   // 🔁 PASTE YOUR WEB APP URL BELOW
-fetch("https://script.google.com/macros/s/AKfycbygFjp99gv9B35KsdcL91xElZqNDCPnoBbKHfTsPxoRfy4lhQ4C5JhAaP8k7_zGJ1_M/exec", {
+fetch("https://script.google.com/macros/library/d/17s5IPK8WWiiuj01lUn3gLPHihGp7D0Xfitoy7_PiuruH5F2le7JyTfqJ/4", {
   method: "POST",
   body: JSON.stringify(data)
 });
@@ -61,6 +61,7 @@ fetch("https://script.google.com/macros/s/AKfycbygFjp99gv9B35KsdcL91xElZqNDCPnoB
     window.open(whatsappWeb, "_blank");
   }, 1200);
 }
+
 
 
 
