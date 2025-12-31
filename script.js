@@ -25,7 +25,7 @@ function sendRequest() {
   }
 
   // 🔁 PASTE YOUR WEB APP URL BELOW
-  const sheetURL = "https://script.google.com/macros/s/AKfycbwgn-663krLJNxxsO-LyBv7PP77mo-faak71OmIG2rtmSx2OlFxz2Rkmy_alOw9pXAL/exec";
+  const sheetURL = "https://script.google.com/macros/s/AKfycbxqUTZxXU0qAKjUVM0tPxJpswRuQXqcL98y9phVHpuUrcPPP66rZBtGIkC5OESYxeLH/exec";
 
   fetch(sheetURL, {
     method: "POST",
@@ -75,3 +75,4 @@ function formatTimeAMPM(time24) {
 
   return `${hours}:${minutes} ${ampm}`;
 }
+
