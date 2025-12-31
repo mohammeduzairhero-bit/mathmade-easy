@@ -11,7 +11,10 @@ function sendRequest() {
     country: document.getElementById("country").value.trim(),
     timezone: document.getElementById("timezone").value.trim(),
     classDate: document.getElementById("classDate").value,
-    classTime: document.getElementById("classTime").value
+   classTime: formatTimeAMPM(
+  document.getElementById("classTime").value
+)
+
   };
 
   for (let key in data) {
@@ -22,11 +25,13 @@ function sendRequest() {
   }
 
   // 🔁 PASTE YOUR WEB APP URL BELOW
-fetch("https://script.google.com/macros/s/AKfycbxqUTZxXU0qAKjUVM0tPxJpswRuQXqcL98y9phVHpuUrcPPP66rZBtGIkC5OESYxeLH/exec", {
-  method: "POST",
-  body: JSON.stringify(data)
-});
+  const sheetURL = "https://script.google.com/macros/s/AKfycbwgn-663krLJNxxsO-LyBv7PP77mo-faak71OmIG2rtmSx2OlFxz2Rkmy_alOw9pXAL/exec";
 
+  fetch(sheetURL, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  });
 
   const yourPhone = "918892193291"; // your number
 
@@ -61,11 +66,12 @@ fetch("https://script.google.com/macros/s/AKfycbxqUTZxXU0qAKjUVM0tPxJpswRuQXqcL9
     window.open(whatsappWeb, "_blank");
   }, 1200);
 }
+function formatTimeAMPM(time24) {
+  let [hours, minutes] = time24.split(":");
+  hours = parseInt(hours, 10);
 
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
 
-
-
-
-
-
-
+  return `${hours}:${minutes} ${ampm}`;
+}
