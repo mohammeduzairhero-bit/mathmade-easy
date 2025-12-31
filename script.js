@@ -22,13 +22,11 @@ function sendRequest() {
   }
 
   // 🔁 PASTE YOUR WEB APP URL BELOW
-  const sheetURL = "https://script.google.com/macros/s/AKfycbygFjp99gv9B35KsdcL91xElZqNDCPnoBbKHfTsPxoRfy4lhQ4C5JhAaP8k7_zGJ1_M/exec";
+fetch("https://script.google.com/macros/s/AKfycbygFjp99gv9B35KsdcL91xElZqNDCPnoBbKHfTsPxoRfy4lhQ4C5JhAaP8k7_zGJ1_M/exec", {
+  method: "POST",
+  body: JSON.stringify(data)
+});
 
-  fetch(sheetURL, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  });
 
   const yourPhone = "918892193291"; // your number
 
@@ -63,5 +61,6 @@ function sendRequest() {
     window.open(whatsappWeb, "_blank");
   }, 1200);
 }
+
 
 
