@@ -25,7 +25,7 @@ function sendRequest() {
   }
 
   // 🔁 PASTE YOUR WEB APP URL BELOW
-fetch("https://script.google.com/macros/s/AKfycbxneuRGJ5oUt7-NPYD12aAZYUgVIW_BMbHHNCXHa2zU3QI-c9Jjda0tBvD9kqV4c7KrJA/exec", {
+fetch("https://script.google.com/macros/s/AKfycbxqm3OpU633j1y1O1oJ-5_B7qye3qv-25fBEUxAyUPLz8IlB5dUtA532V5sKaKnQMy3/exec", {
   method: "POST",
   body: JSON.stringify(data)
 });
@@ -73,6 +73,7 @@ function formatTimeAMPM(time24) {
 
   return `${hours}:${minutes} ${ampm}`;
 }
+
 
 
 
