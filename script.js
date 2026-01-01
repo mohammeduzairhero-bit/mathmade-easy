@@ -21,7 +21,9 @@ function sendRequest() {
     }
   }
 
-  const formURL = "https://docs.google.com/spreadsheets/d/1VUE9mRu04_plgV6QY9AJCVIWspwsC8V-4MclIN2g_aE/edit?usp=sharing";
+  // ✅ GOOGLE FORM POST URL (NOT SHEET URL)
+  const formURL =
+    "https://docs.google.com/spreadsheets/d/1VUE9mRu04_plgV6QY9AJCVIWspwsC8V-4MclIN2g_aE/edit?usp=sharing";
 
   const formData = new FormData();
   formData.append("entry.1505362577", data.name);
@@ -46,17 +48,6 @@ function sendRequest() {
     `Math Made Easy Demo Class\n\n` +
     `Student: ${data.name}\nClass: ${data.cls}\nPhone: ${data.phone}`;
 
-  window.location.href = `https://wa.me/${yourPhone}?text=${encodeURIComponent(message)}`;
+  window.location.href =
+    `https://wa.me/${yourPhone}?text=${encodeURIComponent(message)}`;
 }
-
-
-
-
-
-
-
-
-
-
-
-
