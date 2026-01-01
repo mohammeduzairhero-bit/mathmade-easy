@@ -25,13 +25,11 @@ function sendRequest() {
   }
 
   // 🔁 PASTE YOUR WEB APP URL BELOW
-  const sheetURL = "https://script.google.com/macros/s/AKfycbx-ePnPWLiGwHgAmSZKRD3OJ7HQqjQeBas7Y-G4fdNsGW7Lc_tGVR_GS6KOVQc08Zdpuw/exec";
+fetch("https://script.google.com/macros/s/AKfycbyrGJREJ0l8Fi3szPM_L6qVjZQ-MGhL4leUaCZvVpv7M0bUrKObaHDaajZ_W_6nX-Xftg/exec", {
+  method: "POST",
+  body: JSON.stringify(data)
+});
 
-  fetch(sheetURL, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  });
 
   const yourPhone = "918892193291"; // your number
 
@@ -75,6 +73,7 @@ function formatTimeAMPM(time24) {
 
   return `${hours}:${minutes} ${ampm}`;
 }
+
 
 
 
