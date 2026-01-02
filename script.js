@@ -20,6 +20,8 @@ const firebaseConfig = {
 // 🔥 Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// 🖱️ Cursor Movement
 document.addEventListener('mousemove', (e) => {
   document.body.style.setProperty('--x', e.clientX + 'px');
   document.body.style.setProperty('--y', e.clientY + 'px');
@@ -37,32 +39,39 @@ window.closeForm = function () {
 
 // ✅ SUBMIT FORM
 window.sendRequest = async function () {
+  // Get raw values first for validation
+  const studentName = document.getElementById("studentName").value.trim();
+  const studentClass = document.getElementById("studentClass").value.trim();
+  const parentEmail = document.getElementById("parentEmail").value.trim();
+  const parentPhone = document.getElementById("parentPhone").value.trim();
+  const country = document.getElementById("country").value.trim();
+  const timezone = document.getElementById("timezone").value.trim();
+  const classDate = document.getElementById("classDate").value;
+  const classTime = document.getElementById("classTime").value;
+
+  // ✅ Validation (Check before creating Firebase timestamp)
+  if (!studentName || !studentClass || !parentEmail || !parentPhone || !country || !timezone || !classDate || !classTime) {
+    alert("⚠️ Please fill all details");
+    return;
+  }
+
   const data = {
-    studentName: document.getElementById("studentName").value.trim(),
-    studentClass: document.getElementById("studentClass").value.trim(),
-    parentEmail: document.getElementById("parentEmail").value.trim(),
-    parentPhone: document.getElementById("parentPhone").value.trim(),
-    country: document.getElementById("country").value.trim(),
-    timezone: document.getElementById("timezone").value.trim(),
-    date: document.getElementById("classDate").value,
-    time: document.getElementById("classTime").value,
+    studentName,
+    studentClass,
+    parentEmail,
+    parentPhone,
+    country,
+    timezone,
+    date: classDate,
+    time: classTime,
     createdAt: serverTimestamp()
   };
-
-  // ✅ Validation
-  for (let key in data) {
-    if (!data[key]) {
-      alert("⚠️ Please fill all details");
-      return;
-    }
-  }
 
   try {
     // 🔥 Save to Firestore
     await addDoc(collection(db, "demoRequests"), data);
-    alert("✅ Demo request submitted!");
-
-    // 📱 WhatsApp
+    
+    // 📱 WhatsApp Setup
     const yourPhone = "918892193291";
     const message =
       `📘 Math Made Easy Demo Request\n\n` +
@@ -75,28 +84,28 @@ window.sendRequest = async function () {
     const encodedMsg = encodeURIComponent(message);
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-const whatsappApp = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
-const whatsappWeb = `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
+    const waAppUrl = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
+    const waWebUrl = `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
 
-if (isMobile) {
-  window.location.href = `https://wa.me/${yourPhone}?text=${encodedMsg}`;
-} else {
-  window.location.href = whatsappApp;
-  setTimeout(() => {
-    window.open(whatsappWeb, "_blank");
-  }, 1200);
-}
+    if (isMobile) {
+      window.location.href = `https://wa.me/${yourPhone}?text=${encodedMsg}`;
+    } else {
+      // Attempt to open the App Protocol
+      window.location.assign(waAppUrl);
+      // Fallback to Web after a delay if the protocol failed/was slow
+      setTimeout(() => {
+        window.open(waWebUrl, "_blank");
+      }, 1500);
+    }
 
+    alert("✅ Demo request submitted!");
 
     // 🔄 Reset & close
     document.querySelectorAll("#formPopup input").forEach(i => i.value = "");
     closeForm();
 
   } catch (error) {
-    console.error(error);
-    alert("❌ Failed to submit request. Try again.");
+    console.error("Firestore Error:", error);
+    alert("❌ Failed to submit request. Please check your internet and try again.");
   }
 };
-
-
-
