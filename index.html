@@ -110,51 +110,51 @@
 <div id="formPopup" class="popup">
   <div class="popup-content">
     <span class="close" onclick="closeForm()">×</span>
-    <h3>Book Free Demo Class</h3>
+   <h3>Book Free Demo Class</h3>
 
-   <input type="text" id="studentName" placeholder="Student Name" required>
+<form id="demoForm" onsubmit="sendRequest(event)">
 
-<input 
-  type="number" 
-  id="studentClass" 
-  placeholder="Class (1–10)" 
-  min="1" 
-  max="10" 
-  required
->
+  <input type="text" id="studentName" placeholder="Student Name" required>
 
+  <input 
+    type="number" 
+    id="studentClass" 
+    placeholder="Class (1–10)" 
+    min="1" 
+    max="10" 
+    required
+  >
 
-<input
-  type="email"
-  id="parentEmail"
-  placeholder="Parent Email ID"
-  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-  required
->
+  <input
+    type="email"
+    id="parentEmail"
+    placeholder="Parent Email ID"
+    required
+  >
 
+  <input
+    type="tel"
+    id="parentPhone"
+    placeholder="Parent Mobile Number"
+    maxlength="10"
+    pattern="[0-9]{10}"
+    inputmode="numeric"
+    required
+  >
 
-<input
-  type="tel"
-  id="parentnumber"
-  placeholder="Parent Mobile Number"
-  maxlength="10"
-  pattern="[0-9]{10}"
-  inputmode="numeric"
-  required
->
+  <input type="text" id="country" placeholder="Country" required>
 
-<input type="text" id="country" placeholder="Country" required>
+  <input type="text" id="timezone" placeholder="Time Zone (e.g. IST, GMT)" required>
 
-<input type="text" id="timezone" placeholder="Time Zone (e.g. IST, GMT)" required>
+  <label>Preferred Date</label>
+  <input type="date" id="classDate" required>
 
-<label>Preferred Date</label>
-<input type="date" id="classDate" required>
+  <label>Preferred Time</label>
+  <input type="time" id="classTime" required>
 
-<label>Preferred Time</label>
-<input type="time" id="classTime" required>
+  <button type="submit" class="btn">Submit</button>
 
-
-<button type="button" class="btn" onclick="sendRequest()">Submit</button>
+</form>
 
 
   </div>
@@ -212,6 +212,23 @@
   document.getElementById("parentEmail").addEventListener("input", function () {
     this.value = this.value.toLowerCase();
   });
+</script>
+<script>
+function sendRequest(event) {
+  event.preventDefault(); // 🔴 VERY IMPORTANT
+
+  // If form is invalid, browser will show errors automatically
+  const form = document.getElementById("demoForm");
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  // ✅ All validations passed
+  alert("Form submitted successfully!");
+
+  // TODO: save to Firebase / Google Sheets here
+}
 </script>
 
 
