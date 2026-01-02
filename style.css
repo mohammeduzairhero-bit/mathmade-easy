@@ -22,6 +22,7 @@ body {
   overflow-x: hidden;
 }
 
+
 /* ================= NAVBAR ================= */
 .navbar {
   display: flex;
@@ -33,14 +34,11 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  animation: navbarGlow 6s infinite alternate;
 }
 
 .logo {
   font-size: 24px;
   font-weight: bold;
-  animation: pulseLogo 3s infinite ease-in-out;
-  display: inline-block;
 }
 
 .nav-links {
@@ -53,7 +51,6 @@ body {
   color: white;
   text-decoration: none;
   position: relative;
-  display: inline-block;
 }
 
 .nav-links a::after {
@@ -72,10 +69,6 @@ body {
   width: 100%;
 }
 
-.nav-links a:hover {
-  animation: wiggle 0.5s ease;
-}
-
 /* ================= BUTTONS ================= */
 .btn {
   background: #ffcc00;
@@ -85,7 +78,6 @@ body {
   cursor: pointer;
   font-weight: bold;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  animation: rainbowGlow 5s linear infinite;
 }
 
 .btn:hover {
@@ -107,28 +99,16 @@ body {
   text-align: center;
   padding: 75px 20px;
   position: relative;
-  background: linear-gradient(135deg, #0f3d91, #1f4fd8, #4facfe);
-  background-size: 400% 400%;
-  color: white;
-  animation: shimmer 12s ease infinite;
-  overflow: hidden;
 }
 
 .hero h1 {
   font-size: 42px;
-  color: white;
-  margin: 0 auto 15px auto;
-  display: table; /* Keeps typing centered */
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid #ffcc00;
-  animation: typing 4s steps(30) 1s forwards, blink 0.8s infinite;
+  animation: popIn 1s ease-out;
 }
 
 .hero p {
   font-size: 20px;
   margin-bottom: 20px;
-  color: white;
 }
 
 /* Bouncing Math Emojis */
@@ -138,6 +118,11 @@ body {
   font-size: 32px;
   margin-top: 20px;
   animation: bounceEmoji 1.8s infinite alternate;
+}
+
+@keyframes bounceEmoji {
+  from { transform: translateY(0); }
+  to { transform: translateY(-12px); }
 }
 
 /* ================= SECTIONS ================= */
@@ -172,8 +157,8 @@ body {
   border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeUp 0.8s ease;
   position: relative;
-  animation: floatCard 6s ease-in-out infinite alternate;
 }
 
 /* Sticker emoji */
@@ -183,7 +168,6 @@ body {
   top: -14px;
   right: -14px;
   font-size: 26px;
-  animation: spinEmoji 4s linear infinite;
 }
 
 .card:hover {
@@ -197,7 +181,7 @@ body {
   color: #555;
 }
 
-/* ================= PROGRESS BARS ================= */
+/* ================= FUN PROGRESS BARS ================= */
 .progress {
   background: #e0e7ff;
   border-radius: 20px;
@@ -211,19 +195,12 @@ body {
   height: 100%;
   width: 85%;
   background: linear-gradient(90deg, #ffcc00, #ff8c00);
-  position: relative;
-  overflow: hidden;
   animation: growBar 1.5s ease;
 }
 
-.progress span::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -40%;
-  width: 40%;
-  height: 100%;
-  background: rgba(255,255,255,0.5);
-  animation: shimmerBar 2s infinite;
+@keyframes growBar {
+  from { width: 0; }
+  to { width: 85%; }
 }
 
 /* ================= POPUP ================= */
@@ -241,7 +218,7 @@ body {
   margin: 80px auto;
   padding: 25px;
   border-radius: 20px;
-  animation: bouncePopup 1s ease;
+  animation: slideUp 0.4s ease;
 }
 
 .popup-content input {
@@ -265,160 +242,284 @@ body::before {
   width: 120px;
   height: 120px;
   background: radial-gradient(circle, rgba(255,204,0,0.35), transparent 70%);
-  /* If JS isn't setting --x and --y, this stays hidden or at 0,0 */
-  left: var(--x, -100px);
-  top: var(--y, -100px);
+  left: var(--x);
+  top: var(--y);
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 9999;
-  animation: pulseLight 3s infinite alternate;
 }
 
-/* ================= FLOATING TOOLS ================= */
-.float-tool {
-  position: fixed;
-  width: 80px;
-  height: 80px;
-  opacity: 0.6;
-  pointer-events: none;
-  z-index: -1;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  /* Combined animations */
-  animation: floatMove 10s linear infinite alternate, spinTool 20s linear infinite;
-}
-
-.ruler {
-  background-image: url("https://www.svgrepo.com/show/25852/ruler.svg");
-  top: 10%;
-  left: 5%;
-  animation-duration: 25s, 15s;
-}
-
-.compass {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/3061/3061033.png"); /* Updated to a cleaner PNG */
-  top: 60%;
-  left: 70%;
-  animation-duration: 30s, 20s;
-}
-
-.protractor {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/124/124721.png");
-  top: 30%;
-  left: 40%;
-  animation-duration: 20s, 25s;
-}
-
-/* ================= KEYFRAMES ================= */
-@keyframes navbarGlow {
-  0% { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-  50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
-  100% { box-shadow: 0 0 40px rgba(255,255,255,0.9); }
-}
-
-@keyframes pulseLogo {
-  0%, 100% { transform: scale(1); color: #fff; }
-  50% { transform: scale(1.1); color: #ffcc00; }
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(5deg); }
-  75% { transform: rotate(-5deg); }
-}
-
-@keyframes rainbowGlow {
-  0%, 100% { box-shadow: 0 0 10px #ffcc00; }
-  25% { box-shadow: 0 0 20px #ff8c00; }
-  50% { box-shadow: 0 0 20px #1f4fd8; }
-  75% { box-shadow: 0 0 20px #4facfe; }
-}
-
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blink {
-  0%, 100% { border-color: transparent; }
-  50% { border-color: #ffcc00; }
-}
-
-@keyframes shimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes floatCard {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-15px); }
-}
-
-@keyframes spinEmoji {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes growBar {
-  from { width: 0; }
-  to { width: 85%; }
-}
-
-@keyframes shimmerBar {
-  0% { left: -40%; }
-  100% { left: 100%; }
-}
-
-@keyframes bouncePopup {
-  0% { transform: scale(0.5); opacity: 0; }
-  70% { transform: scale(1.1); }
+/* ================= ANIMATIONS ================= */
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-@keyframes bounceEmoji {
-  from { transform: translateY(0); }
-  to { transform: translateY(-15px); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes floatMove {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(100px, 50px); }
-  50% { transform: translate(-50px, 100px); }
-  75% { transform: translate(100px, -50px); }
-  100% { transform: translate(0, 0); }
-}
-
-@keyframes spinTool {
-  from { rotate: 0deg; }
-  to { rotate: 360deg; }
-}
-
-@keyframes pulseLight {
-  from { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-  to { opacity: 0.6; transform: translate(-50%, -50%) scale(1.4); }
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
-    padding: 20px;
-    gap: 15px;
+    gap: 10px;
   }
+
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .hero h1 {
-    font-size: 28px;
-    white-space: normal; /* Allow wrap on mobile */
-    border: none;
-    animation: none;
-    display: block;
+    font-size: 30px;
   }
+
   .card {
     width: 90%;
   }
+}
+.float-tool {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: -1;
+  animation: floatMove 10s linear infinite alternate;
+}
+
+/* Different tools */
+.ruler {
+  background: url("https://www.svgrepo.com/show/25852/ruler.svg") no-repeat center;
+  background-size: contain;
+  top: 10%;
+  left: 5%;
+  opacity: 0.9;
+  animation-duration: 30s;
+}
+
+.compass {
+  background: url("https://img.freepik.com/free-icon/compass_318-356992.jpg") no-repeat center;
+  background-size: contain;
+  top: 60%;
+  left: 70%;
+  opacity: 0.9;
+  animation-duration: 30s;
+  
+}
+
+.protractor {
+  background: url("https://cdn-icons-png.flaticon.com/512/124/124721.png") no-repeat center;
+  background-size: contain;
+  top: 30%;
+  left: 40%;
+  opacity: 0.9;
+  animation-duration: 30s;
+}
+
+
+
+@keyframes floatMove {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(200px, 120px) rotate(15deg);
+  }
+  50% {
+    transform: translate(-150px, 200px) rotate(-10deg);
+  }
+  75% {
+    transform: translate(250px, -150px) rotate(20deg);
+  }
+  100% {
+    transform: translate(-200px, -100px) rotate(-15deg);
+  }
+}
+
+
+
+
+/* ===== STOP SCROLL MOVEMENT ===== */
+
+/* Headings should never move */
+.section h2,
+.hero h1,
+.hero p {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Cards load animation removed */
+.card {
+  animation: none !important;
+}
+
+/* Prevent accidental movement on scroll */
+.section,
+.hero {
+  will-change: auto;
+}
+
+/* ================= EXTRA ANIMATIONS ================= */
+
+/* Navbar glow effect */
+.navbar {
+  animation: navbarGlow 6s infinite alternate;
+}
+@keyframes navbarGlow {
+  0% { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+  50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
+  100% { box-shadow: 0 0 40px rgba(255,255,255,0.9); }
+}
+
+/* Logo pulse */
+.logo {
+  animation: pulseLogo 3s infinite ease-in-out;
+}
+@keyframes pulseLogo {
+  0%,100% { transform: scale(1); color: #fff; }
+  50% { transform: scale(1.2); color: #ffcc00; }
+}
+
+/* Nav links wiggle on hover */
+.nav-links a:hover {
+  animation: wiggle 0.5s ease;
+}
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+  75% { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Buttons rainbow glow */
+.btn {
+  animation: rainbowGlow 5s linear infinite;
+}
+@keyframes rainbowGlow {
+  0% { box-shadow: 0 0 10px #ffcc00; }
+  25% { box-shadow: 0 0 15px #ff8c00; }
+  50% { box-shadow: 0 0 20px #1f4fd8; }
+  75% { box-shadow: 0 0 15px #4facfe; }
+  100% { box-shadow: 0 0 10px #ffcc00; }
+}
+
+/* Hero text typing effect */
+.hero h1 {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #ffcc00;
+  animation: typing 4s steps(30) 1s forwards, blink 0.8s infinite;
+}
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  0%,100% { border-color: transparent; }
+  50% { border-color: #ffcc00; }
+}
+
+/* Hero background shimmer */
+.hero {
+  background: linear-gradient(270deg, #eef4ff, #f9fbff, #dbe9ff);
+  background-size: 600% 600%;
+  animation: shimmer 12s ease infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Cards floating effect */
+.card {
+  animation: floatCard 6s ease-in-out infinite alternate;
+}
+@keyframes floatCard {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+/* Card emoji spin */
+.card::before {
+  animation: spinEmoji 4s linear infinite;
+}
+@keyframes spinEmoji {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Progress bar shimmer */
+.progress span {
+  position: relative;
+  overflow: hidden;
+}
+.progress span::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -40%;
+  width: 40%;
+  height: 100%;
+  background: rgba(255,255,255,0.5);
+  animation: shimmerBar 2s infinite;
+}
+@keyframes shimmerBar {
+  0% { left: -40%; }
+  100% { left: 100%; }
+}
+
+/* Popup bounce */
+.popup-content {
+  animation: bouncePopup 1s ease;
+}
+@keyframes bouncePopup {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Cursor light pulse */
+body::before {
+  animation: pulseLight 3s infinite alternate;
+}
+@keyframes pulseLight {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
+}
+
+/* Floating tools spin */
+.float-tool {
+  animation: floatMove 10s linear infinite alternate, spinTool 20s linear infinite;
+}
+@keyframes spinTool {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== HERO BLUE BACKGROUND (ADD ONLY) ===== */
+.hero {
+  background: linear-gradient(
+    135deg,
+    #0f3d91,
+    #1f4fd8,
+    #4facfe
+  );
+  color: white;
+}
+
+/* Keep text readable */
+.hero h1,
+.hero p {
+  color: white;
 }
