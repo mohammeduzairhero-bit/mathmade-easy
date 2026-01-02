@@ -2,19 +2,20 @@ function openForm() {
   document.getElementById("formPopup").style.display = "block";
 }
 
+function closeForm() {
+  document.getElementById("formPopup").style.display = "none";
+}
+
 function sendRequest() {
   const data = {
-    studentName: document.getElementById("studentName").value.trim(),
-    studentClass: document.getElementById("studentClass").value.trim(),
-    parentEmail: document.getElementById("parentEmail").value.trim(),
-    parentPhone: document.getElementById("parentPhone").value.trim(),
+    name: document.getElementById("studentName").value.trim(),
+    cls: document.getElementById("studentClass").value.trim(),
+    email: document.getElementById("parentEmail").value.trim(),
+    phone: document.getElementById("parentPhone").value.trim(),
     country: document.getElementById("country").value.trim(),
     timezone: document.getElementById("timezone").value.trim(),
-    classDate: document.getElementById("classDate").value,
-   classTime: formatTimeAMPM(
-  document.getElementById("classTime").value
-)
-
+    date: document.getElementById("classDate").value,
+    time: document.getElementById("classTime").value
   };
 
   for (let key in data) {
@@ -24,54 +25,59 @@ function sendRequest() {
     }
   }
 
-  // 🔁 PASTE YOUR WEB APP URL BELOW
-  const sheetURL = "https://script.google.com/macros/s/AKfycbwgn-663krLJNxxsO-LyBv7PP77mo-faak71OmIG2rtmSx2OlFxz2Rkmy_alOw9pXAL/exec";
+  /* 🔗 GOOGLE FORM BACKEND URL (VERY IMPORTANT) */
+  const formURL =
+    "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
 
-  fetch(sheetURL, {
+  /* 📩 SEND TO GOOGLE FORM (SAVES TO SHEET) */
+  const formData = new FormData();
+  formData.append("entry.1505362577", data.name);
+  formData.append("entry.94273218", data.cls);
+  formData.append("entry.1455560592", data.email);
+  formData.append("entry.1920149742", data.phone);
+  formData.append("entry.1314795174", data.country);
+  formData.append("entry.395610639", data.timezone);
+  formData.append("entry.1978618620", data.date);
+  formData.append("entry.1277771009", data.time);
+
+  fetch(formURL, {
     method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
+    mode: "no-cors",
+    body: formData
   });
 
-  const yourPhone = "918892193291"; // your number
+  alert("Thank you! Your demo request has been submitted.");
+
+  /* 📲 WHATSAPP LOGIC */
+  const yourPhone = "918892193291";
 
   const message =
     `*Math Made Easy*\n` +
     `Demo Class\n\n` +
-    `Student Name: ${data.studentName}\n` +
-    `Class: ${data.studentClass}\n` +
-    `Parent Email: ${data.parentEmail}\n` +
-    `Parent Phone: ${data.parentPhone}\n` +
+    `Student Name: ${data.name}\n` +
+    `Class: ${data.cls}\n` +
+    `Parent Email: ${data.email}\n` +
+    `Parent Phone: ${data.phone}\n` +
     `Country: ${data.country}\n` +
     `Time Zone: ${data.timezone}\n` +
-    `Preferred Date: ${data.classDate}\n` +
-    `Preferred Time: ${data.classTime} (${data.timezone})\n\n` +
+    `Preferred Date: ${data.date}\n` +
+    `Preferred Time: ${data.time}\n\n` +
     `Thank you for reaching us. We will answer shortly.`;
 
   const encodedMsg = encodeURIComponent(message);
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-  alert("Thank you! Your demo request has been submitted.");
-
   if (isMobile) {
-    window.location.href = `sms:${yourPhone}?body=${encodedMsg}`;
-    return;
+    // 📱 Mobile WhatsApp
+    window.location.href = `https://wa.me/${yourPhone}?text=${encodedMsg}`;
+  } else {
+    // 💻 Laptop: WhatsApp App → WhatsApp Web
+    const whatsappApp = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
+    const whatsappWeb = `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
+
+    window.location.href = whatsappApp;
+    setTimeout(() => {
+      window.open(whatsappWeb, "_blank");
+    }, 1200);
   }
-
-  const whatsappApp = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
-  const whatsappWeb = `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
-
-  window.location.href = whatsappApp;
-  setTimeout(() => {
-    window.open(whatsappWeb, "_blank");
-  }, 1200);
-}
-function formatTimeAMPM(time24) {
-  let [hours, minutes] = time24.split(":");
-  hours = parseInt(hours, 10);
-
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12 || 12;
-
-  return `${hours}:${minutes} ${ampm}`;
 }
