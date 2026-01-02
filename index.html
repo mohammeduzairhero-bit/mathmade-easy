@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,9 +139,37 @@
 
 
 
-   <script type="module" src="script.js"></script>
+  <script type="module" src="script.js"></script>
+  <div class="background-tools">
+  <div class="tool ruler"></div>
+  <div class="tool triangle"></div>
+  <div class="tool compass"></div>
+  <div class="tool protractor"></div>
+</div>
+<div class="float-tool ruler"></div>
+<div class="float-tool compass"></div>
+<div class="float-tool protractor"></div>
+
+<script>
+  document.querySelectorAll(".float-tool").forEach(tool => {
+    // Random start position
+    tool.style.top = Math.random() * 90 + "%";
+    tool.style.left = Math.random() * 90 + "%";
+
+    // Random animation speed
+    tool.style.animationDuration =
+      Math.floor(Math.random() * 25 + 15) + "s";
+
+    // Random animation delay
+    tool.style.animationDelay =
+      Math.floor(Math.random() * 10) + "s";
+
+    // Random opacity
+    tool.style.opacity = (Math.random() * 0.4 + 0.5).toFixed(2);
+  });
+</script>
+
+
+
 </body>
 </html>
-
-
-
