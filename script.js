@@ -71,14 +71,18 @@ window.sendRequest = async function () {
     const encodedMsg = encodeURIComponent(message);
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-    if (isMobile) {
-      window.location.href = `https://wa.me/${yourPhone}?text=${encodedMsg}`;
-    } else {
-      window.open(
-        `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`,
-        "_blank"
-      );
-    }
+const whatsappApp = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
+const whatsappWeb = `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
+
+if (isMobile) {
+  window.location.href = `https://wa.me/${yourPhone}?text=${encodedMsg}`;
+} else {
+  window.location.href = whatsappApp;
+  setTimeout(() => {
+    window.open(whatsappWeb, "_blank");
+  }, 1200);
+}
+
 
     // 🔄 Reset & close
     document.querySelectorAll("#formPopup input").forEach(i => i.value = "");
