@@ -11,17 +11,16 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background: linear-gradient(180deg, #f9fbff, #eef4ff);
   line-height: 1.6;
   position: relative;
-  overflow-x: hidden;
+  animation: pageFloat 1.2s ease;
 }
-
 
 /* ================= NAVBAR ================= */
 .navbar {
@@ -34,11 +33,13 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
+  animation: navbarGlow 6s infinite alternate, navFlow 8s ease infinite;
 }
 
 .logo {
   font-size: 24px;
   font-weight: bold;
+  animation: pulseLogo 3s infinite ease-in-out;
 }
 
 .nav-links {
@@ -77,16 +78,22 @@ body {
   border-radius: 30px;
   cursor: pointer;
   font-weight: bold;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: rainbowGlow 5s linear infinite;
+  transition: transform 0.3s ease;
 }
 
 .btn:hover {
-  transform: scale(1.08) rotate(-1deg);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  animation: btnBounce 0.5s ease;
 }
 
-.btn:active {
-  transform: scale(0.95);
+.btn::after {
+  content: " ✨";
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.btn:hover::after {
+  opacity: 1;
 }
 
 .big {
@@ -97,32 +104,32 @@ body {
 /* ================= HERO ================= */
 .hero {
   text-align: center;
-  padding: 75px 20px;
-  position: relative;
+  padding: 80px 20px;
+  background: linear-gradient(270deg, #eef4ff, #f9fbff, #dbe9ff);
+  background-size: 600% 600%;
+  animation: shimmer 12s ease infinite;
 }
 
 .hero h1 {
   font-size: 42px;
-  animation: popIn 1s ease-out;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #ffcc00;
+  animation: typing 4s steps(30) 1s forwards, blink 0.8s infinite, heroBounce 4s ease-in-out infinite;
+}
+
+.hero h1::before {
+  content: "🧠 ";
 }
 
 .hero p {
   font-size: 20px;
   margin-bottom: 20px;
+  animation: textPulse 3s ease-in-out infinite;
 }
 
-/* Bouncing Math Emojis */
-.hero::after {
-  content: "➕ ➖ ✖️ ➗ 📐";
-  display: block;
-  font-size: 32px;
-  margin-top: 20px;
-  animation: bounceEmoji 1.8s infinite alternate;
-}
-
-@keyframes bounceEmoji {
-  from { transform: translateY(0); }
-  to { transform: translateY(-12px); }
+.hero p::after {
+  content: " ✏️";
 }
 
 /* ================= SECTIONS ================= */
@@ -131,6 +138,16 @@ body {
   text-align: center;
   max-width: 1200px;
   margin: auto;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.section.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .gray {
@@ -140,6 +157,22 @@ body {
 .section h2 {
   font-size: 30px;
   margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.section h2::before {
+  content: "⭐ ";
+}
+
+/* Divider */
+.section::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #1f4fd8, #4facfe);
+  margin: 25px auto 0;
+  border-radius: 20px;
 }
 
 /* ================= CARDS ================= */
@@ -151,56 +184,34 @@ body {
 }
 
 .card {
-  background: white;
+  background: rgba(255,255,255,0.92);
   width: 250px;
   padding: 30px 20px;
   border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: fadeUp 0.8s ease;
+  backdrop-filter: blur(6px);
   position: relative;
+  animation: breatheCard 5s ease-in-out infinite;
+  transition: transform 0.3s ease;
 }
 
-/* Sticker emoji */
 .card::before {
   content: "⭐";
   position: absolute;
   top: -14px;
   right: -14px;
   font-size: 26px;
+  animation: spinEmoji 4s linear infinite;
 }
 
 .card:hover {
-  transform: translateY(-10px) rotate(-1deg);
-  box-shadow: 0 16px 35px rgba(0,0,0,0.18);
+  transform: translateY(-15px) scale(1.05);
 }
 
 .card small {
   display: block;
   margin-top: 10px;
   color: #555;
-}
-
-/* ================= FUN PROGRESS BARS ================= */
-.progress {
-  background: #e0e7ff;
-  border-radius: 20px;
-  height: 14px;
-  margin-top: 12px;
-  overflow: hidden;
-}
-
-.progress span {
-  display: block;
-  height: 100%;
-  width: 85%;
-  background: linear-gradient(90deg, #ffcc00, #ff8c00);
-  animation: growBar 1.5s ease;
-}
-
-@keyframes growBar {
-  from { width: 0; }
-  to { width: 85%; }
 }
 
 /* ================= POPUP ================= */
@@ -218,7 +229,7 @@ body {
   margin: 80px auto;
   padding: 25px;
   border-radius: 20px;
-  animation: slideUp 0.4s ease;
+  animation: popupDrop 0.6s ease;
 }
 
 .popup-content input {
@@ -227,6 +238,13 @@ body {
   margin: 8px 0;
   border-radius: 10px;
   border: 1px solid #ccc;
+  transition: 0.3s;
+}
+
+.popup-content input:focus {
+  outline: none;
+  transform: scale(1.03);
+  box-shadow: 0 0 14px rgba(79,172,254,0.6);
 }
 
 .close {
@@ -235,291 +253,320 @@ body {
   font-size: 22px;
 }
 
-/* ================= CURSOR LIGHT ================= */
-body::before {
-  content: "";
+/* ================= FLOATING TOOLS ================= */
+.float-tool {
   position: fixed;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle, rgba(255,204,0,0.35), transparent 70%);
-  left: var(--x);
-  top: var(--y);
-  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  opacity: 0.7;
   pointer-events: none;
-  z-index: 9999;
+  z-index: -1;
+  animation: floatMove 25s linear infinite alternate, spinTool 30s linear infinite;
 }
+
+.ruler { background: url("https://www.svgrepo.com/show/25852/ruler.svg") no-repeat center/contain; }
+.compass { background: url("https://img.freepik.com/free-icon/compass_318-356992.jpg") no-repeat center/contain; }
+.protractor { background: url("https://cdn-icons-png.flaticon.com/512/124/124721.png") no-repeat center/contain; }
+
+/* ================= GEOMETRIC SHAPES (FIXED) ================= */
+.geo-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.geo-shape {
+  position: absolute;
+  opacity: 0.15;
+}
+
+.geo-1 { top: 15vh; left: 10vw; animation: geoMove1 40s infinite; }
+.geo-2 { top: 70vh; left: 15vw; animation: geoMove2 45s infinite; }
+.geo-3 { top: 20vh; left: 70vw; animation: geoMove3 50s infinite; }
+.geo-4 { top: 75vh; left: 75vw; animation: geoMove4 42s infinite; }
+.geo-5 { top: 45vh; left: 45vw; animation: geoMove5 55s infinite; }
+
+@keyframes geoMove1 { 50% { transform: translate(120px,-80px) rotate(180deg); } }
+@keyframes geoMove2 { 50% { transform: translate(-140px,90px) rotate(-180deg); } }
+@keyframes geoMove3 { 50% { transform: translate(100px,120px) rotate(180deg); } }
+@keyframes geoMove4 { 50% { transform: translate(-110px,-100px) rotate(-180deg); } }
+@keyframes geoMove5 { 50% { transform: translate(160px,-60px) rotate(180deg); } }
 
 /* ================= ANIMATIONS ================= */
-@keyframes popIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(40px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes blink { 50% { border-color: transparent; } }
+@keyframes shimmer { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes heroBounce { 50% { transform: translateY(-6px); } }
+@keyframes textPulse { 50% { opacity: 0.85; } }
+@keyframes breatheCard { 50% { transform: scale(1.03); } }
+@keyframes spinEmoji { to { transform: rotate(360deg); } }
+@keyframes navbarGlow { to { box-shadow: 0 0 40px rgba(255,255,255,0.9); } }
+@keyframes pulseLogo { 50% { transform: scale(1.2); color: #ffcc00; } }
+@keyframes rainbowGlow { 50% { box-shadow: 0 0 20px #4facfe; } }
+@keyframes btnBounce { 30% { transform: scale(1.12); } }
+@keyframes popupDrop { from { transform: translateY(-60px) scale(0.85); opacity: 0; } }
+@keyframes floatMove { 50% { transform: translate(200px,-120px); } }
+@keyframes spinTool { to { transform: rotate(360deg); } }
+@keyframes pageFloat { from { opacity: 0; transform: translateY(20px); } }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
+  .navbar { flex-direction: column; gap: 10px; }
+  .hero h1 { font-size: 30px; }
+  .card { width: 90%; }
+}
+/* ================= RESTORED ANIMATIONS ================= */
+
+/* GLOBAL FLOATING FEEL */
+body * {
+  animation-timing-function: ease-in-out;
+}
+
+/* HERO EXTRA LIFE */
+.hero {
+  animation:
+    shimmer 12s ease infinite,
+    heroFloat 6s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+  50% { transform: translateY(-12px); }
+}
+
+/* HERO TITLE WAVE */
+.hero h1 {
+  animation:
+    typing 4s steps(30) 1s forwards,
+    blink 0.8s infinite,
+    heroBounce 4s ease-in-out infinite,
+    titleWave 3s ease-in-out infinite;
+}
+
+@keyframes titleWave {
+  50% { letter-spacing: 4px; }
+}
+
+/* HERO PARAGRAPH FLOAT */
+.hero p {
+  animation:
+    textPulse 3s ease-in-out infinite,
+    paraFloat 4s ease-in-out infinite;
+}
+
+@keyframes paraFloat {
+  50% { transform: translateY(-8px); }
+}
+
+/* BUTTONS – CONSTANT FUN */
+.btn {
+  animation:
+    rainbowGlow 5s linear infinite,
+    btnFloat 3s ease-in-out infinite;
+}
+
+@keyframes btnFloat {
+  50% { transform: translateY(-6px); }
+}
+
+.btn:hover {
+  animation:
+    btnBounce 0.5s ease,
+    btnShake 0.4s ease;
+}
+
+@keyframes btnShake {
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(-2deg); }
+}
+
+/* NAV LINKS WIGGLE */
+.nav-links a:hover {
+  animation: navWiggle 0.4s ease;
+}
+
+@keyframes navWiggle {
+  25% { transform: rotate(3deg); }
+  75% { transform: rotate(-3deg); }
+}
+
+/* SECTIONS – FLOAT IN PLACE */
+.section.show {
+  animation:
+    sectionFloat 6s ease-in-out infinite;
+}
+
+@keyframes sectionFloat {
+  50% { transform: translateY(-10px); }
+}
+
+/* CARDS – ALL EFFECTS BACK */
+.card {
+  animation:
+    breatheCard 5s ease-in-out infinite,
+    cardFloat 4s ease-in-out infinite,
+    cardGlow 6s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes cardGlow {
+  50% {
+    box-shadow:
+      0 0 25px rgba(79,172,254,0.7),
+      0 0 45px rgba(255,204,0,0.5);
+  }
+}
+
+.card:hover {
+  animation:
+    cardHoverShake 0.5s ease,
+    cardPop 0.4s ease;
+}
+
+@keyframes cardHoverShake {
+  25% { transform: translateX(4px); }
+  50% { transform: translateX(-4px); }
+}
+
+@keyframes cardPop {
+  50% { transform: scale(1.08); }
+}
+
+/* EMOJI CHAOS (CONTROLLED) */
+.card::before,
+.btn::after,
+.hero h1::before {
+  animation:
+    spinEmoji 4s linear infinite,
+    emojiFloat 3s ease-in-out infinite;
+}
+
+@keyframes emojiFloat {
+  50% { transform: translateY(-6px); }
+}
+
+/* POPUP ENTRANCE + FLOAT */
+.popup-content {
+  animation:
+    popupDrop 0.6s ease,
+    popupFloat 5s ease-in-out infinite;
+}
+
+@keyframes popupFloat {
+  50% { transform: translateY(-10px); }
+}
+
+/* FLOATING TOOLS – MORE LIFE */
+.float-tool {
+  animation:
+    floatMove 25s linear infinite alternate,
+    spinTool 30s linear infinite,
+    toolBounce 6s ease-in-out infinite;
+}
+
+@keyframes toolBounce {
+  50% { transform: scale(1.1); }
+}
+
+/* GEOMETRIC SHAPES – EXTRA DRIFT */
+.geo-shape {
+  animation:
+    geoPulse 8s ease-in-out infinite;
+}
+
+@keyframes geoPulse {
+  50% { opacity: 0.25; transform: scale(1.2); }
+}
+
+/* ================= FINAL MOBILE OVERRIDES ================= */
+
+/* MOBILE HERO SIZE FIX (MOST IMPORTANT) */
+@media (max-width: 768px) {
+
+  .hero {
+    padding: 36px 14px !important;
+    min-height: auto !important;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem !important;
+    line-height: 1.2;
+    white-space: normal !important; /* prevent long typing overflow */
+    border-right: none !important;  /* avoid cursor stretching height */
+    animation-duration: 3s, 0.8s, 4s, 3s; /* faster typing on mobile */
+  }
+
+  .hero p {
+    font-size: 0.95rem !important;
+    margin-bottom: 12px;
+  }
+}
+
+/* EXTRA SMALL PHONES */
+@media (max-width: 420px) {
+
+  .hero {
+    padding: 28px 12px !important;
+  }
+
+  .hero h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* ================= MOBILE PERFORMANCE & LAYOUT ================= */
+
+/* Stack navbar cleanly */
+@media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    gap: 10px;
+    padding: 12px 16px;
   }
 
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 12px;
   }
+}
 
-  .hero h1 {
-    font-size: 30px;
-  }
-
+/* Cards feel lighter on mobile */
+@media (max-width: 768px) {
   .card {
-    width: 90%;
-  }
-}
-.float-tool {
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  opacity: 0.9;
-  pointer-events: none;
-  z-index: -1;
-  animation: floatMove 10s linear infinite alternate;
-}
-
-/* Different tools */
-.ruler {
-  background: url("https://www.svgrepo.com/show/25852/ruler.svg") no-repeat center;
-  background-size: contain;
-  top: 10%;
-  left: 5%;
-  opacity: 0.9;
-  animation-duration: 30s;
-}
-
-.compass {
-  background: url("https://img.freepik.com/free-icon/compass_318-356992.jpg") no-repeat center;
-  background-size: contain;
-  top: 60%;
-  left: 70%;
-  opacity: 0.9;
-  animation-duration: 30s;
-  
-}
-
-.protractor {
-  background: url("https://cdn-icons-png.flaticon.com/512/124/124721.png") no-repeat center;
-  background-size: contain;
-  top: 30%;
-  left: 40%;
-  opacity: 0.9;
-  animation-duration: 30s;
-}
-
-
-
-@keyframes floatMove {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate(200px, 120px) rotate(15deg);
-  }
-  50% {
-    transform: translate(-150px, 200px) rotate(-10deg);
-  }
-  75% {
-    transform: translate(250px, -150px) rotate(20deg);
-  }
-  100% {
-    transform: translate(-200px, -100px) rotate(-15deg);
+    width: 92%;
+    animation-duration: 6s, 5s, 7s; /* smoother, less aggressive */
   }
 }
 
-
-
-
-/* ===== STOP SCROLL MOVEMENT ===== */
-
-/* Headings should never move */
-.section h2,
-.hero h1,
-.hero p {
-  animation: none !important;
-  transform: none !important;
+/* Popup fits phone screens */
+@media (max-width: 480px) {
+  .popup-content {
+    margin: 40px 10px;
+    max-width: 95%;
+  }
 }
 
-/* Cards load animation removed */
-.card {
-  animation: none !important;
+/* Reduce visual clutter on small screens (still animated) */
+@media (max-width: 768px) {
+  .geo-shape {
+    opacity: 0.08;
+  }
+
+  .float-tool {
+    width: 70px;
+    height: 70px;
+    opacity: 0.5;
+  }
 }
 
-/* Prevent accidental movement on scroll */
-.section,
-.hero {
-  will-change: auto;
+/* Cursor glow less intense on mobile */
+@media (hover: none) {
+  body::before {
+    width: 80px;
+    height: 80px;
+    opacity: 0.25;
+  }
 }
 
-/* ================= EXTRA ANIMATIONS ================= */
-
-/* Navbar glow effect */
-.navbar {
-  animation: navbarGlow 6s infinite alternate;
-}
-@keyframes navbarGlow {
-  0% { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-  50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
-  100% { box-shadow: 0 0 40px rgba(255,255,255,0.9); }
-}
-
-/* Logo pulse */
-.logo {
-  animation: pulseLogo 3s infinite ease-in-out;
-}
-@keyframes pulseLogo {
-  0%,100% { transform: scale(1); color: #fff; }
-  50% { transform: scale(1.2); color: #ffcc00; }
-}
-
-/* Nav links wiggle on hover */
-.nav-links a:hover {
-  animation: wiggle 0.5s ease;
-}
-@keyframes wiggle {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(3deg); }
-  50% { transform: rotate(-3deg); }
-  75% { transform: rotate(2deg); }
-  100% { transform: rotate(0deg); }
-}
-
-/* Buttons rainbow glow */
-.btn {
-  animation: rainbowGlow 5s linear infinite;
-}
-@keyframes rainbowGlow {
-  0% { box-shadow: 0 0 10px #ffcc00; }
-  25% { box-shadow: 0 0 15px #ff8c00; }
-  50% { box-shadow: 0 0 20px #1f4fd8; }
-  75% { box-shadow: 0 0 15px #4facfe; }
-  100% { box-shadow: 0 0 10px #ffcc00; }
-}
-
-/* Hero text typing effect */
-.hero h1 {
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 3px solid #ffcc00;
-  animation: typing 4s steps(30) 1s forwards, blink 0.8s infinite;
-}
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-@keyframes blink {
-  0%,100% { border-color: transparent; }
-  50% { border-color: #ffcc00; }
-}
-
-/* Hero background shimmer */
-.hero {
-  background: linear-gradient(270deg, #eef4ff, #f9fbff, #dbe9ff);
-  background-size: 600% 600%;
-  animation: shimmer 12s ease infinite;
-}
-@keyframes shimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Cards floating effect */
-.card {
-  animation: floatCard 6s ease-in-out infinite alternate;
-}
-@keyframes floatCard {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
-}
-
-/* Card emoji spin */
-.card::before {
-  animation: spinEmoji 4s linear infinite;
-}
-@keyframes spinEmoji {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Progress bar shimmer */
-.progress span {
-  position: relative;
-  overflow: hidden;
-}
-.progress span::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -40%;
-  width: 40%;
-  height: 100%;
-  background: rgba(255,255,255,0.5);
-  animation: shimmerBar 2s infinite;
-}
-@keyframes shimmerBar {
-  0% { left: -40%; }
-  100% { left: 100%; }
-}
-
-/* Popup bounce */
-.popup-content {
-  animation: bouncePopup 1s ease;
-}
-@keyframes bouncePopup {
-  0% { transform: scale(0.8); opacity: 0; }
-  50% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-/* Cursor light pulse */
-body::before {
-  animation: pulseLight 3s infinite alternate;
-}
-@keyframes pulseLight {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
-  100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
-}
-
-/* Floating tools spin */
-.float-tool {
-  animation: floatMove 10s linear infinite alternate, spinTool 20s linear infinite;
-}
-@keyframes spinTool {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* ===== HERO BLUE BACKGROUND (ADD ONLY) ===== */
-.hero {
-  background: linear-gradient(
-    135deg,
-    #0f3d91,
-    #1f4fd8,
-    #4facfe
-  );
-  color: white;
-}
-
-/* Keep text readable */
-.hero h1,
-.hero p {
-  color: white;
-}
