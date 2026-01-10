@@ -20,23 +20,40 @@ const firebaseConfig = {
 // 🔥 Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-document.addEventListener('mousemove', (e) => {
-  document.body.style.setProperty('--x', e.clientX + 'px');
-  document.body.style.setProperty('--y', e.clientY + 'px');
+
+// 🎯 Mouse effect (safe)
+document.addEventListener("mousemove", e => {
+  document.body.style.setProperty("--x", e.clientX + "px");
+  document.body.style.setProperty("--y", e.clientY + "px");
 });
 
 // ✅ OPEN FORM
-window.openForm = function () {
+window.openForm = () => {
   document.getElementById("formPopup").style.display = "block";
 };
 
 // ✅ CLOSE FORM
-window.closeForm = function () {
+window.closeForm = () => {
   document.getElementById("formPopup").style.display = "none";
 };
+// 📱 Mobile number: only digits, max 10
+const phoneInput = document.getElementById("parentPhone");
+phoneInput.addEventListener("input", () => {
+  phoneInput.value = phoneInput.value
+    .replace(/\D/g, "")     // remove non-digits
+    .slice(0, 10);          // limit to 10 digits
+});
+
+// 🏫 Class: only numbers 1 to 10
+const classInput = document.getElementById("studentClass");
+classInput.addEventListener("input", () => {
+  classInput.value = classInput.value.replace(/\D/g, "");
+  if (classInput.value > 10) classInput.value = 10;
+  if (classInput.value < 1 && classInput.value !== "") classInput.value = 1;
+});
 
 // ✅ SUBMIT FORM
-window.sendRequest = async function () {
+window.sendRequest = async () => {
   const data = {
     studentName: document.getElementById("studentName").value.trim(),
     studentClass: document.getElementById("studentClass").value.trim(),
@@ -49,17 +66,42 @@ window.sendRequest = async function () {
     createdAt: serverTimestamp()
   };
 
-  // ✅ Validation
-  for (let key in data) {
-    if (!data[key]) {
+  // ✅ Validate ONLY user inputs
+  const requiredFields = [
+    "studentName",
+    "studentClass",
+    "parentEmail",
+    "parentPhone",
+    "country",
+    "timezone",
+    "date",
+    "time"
+  ];
+
+  for (let field of requiredFields) {
+    if (!data[field]) {
       alert("⚠️ Please fill all details");
       return;
     }
   }
+  // 🚫 Phone number validation
+if (data.parentPhone.length !== 10) {
+  alert("📱 Mobile number must be exactly 10 digits");
+  return;
+}
+
+// 🚫 Class validation
+const classNum = Number(data.studentClass);
+if (isNaN(classNum) || classNum < 1 || classNum > 10) {
+  alert("🏫 Class must be between 1 and 10");
+  return;
+}
+
 
   try {
     // 🔥 Save to Firestore
     await addDoc(collection(db, "demoRequests"), data);
+
     alert("✅ Demo request submitted!");
 
     // 📱 WhatsApp
@@ -75,18 +117,11 @@ window.sendRequest = async function () {
     const encodedMsg = encodeURIComponent(message);
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-const whatsappApp = `whatsapp://send?phone=${yourPhone}&text=${encodedMsg}`;
-const whatsappWeb = `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
+    const whatsappURL = isMobile
+      ? `https://wa.me/${yourPhone}?text=${encodedMsg}`
+      : `https://web.whatsapp.com/send?phone=${yourPhone}&text=${encodedMsg}`;
 
-if (isMobile) {
-  window.location.href = `https://wa.me/${yourPhone}?text=${encodedMsg}`;
-} else {
-  window.location.href = whatsappApp;
-  setTimeout(() => {
-    window.open(whatsappWeb, "_blank");
-  }, 1200);
-}
-
+    window.open(whatsappURL, "_blank");
 
     // 🔄 Reset & close
     document.querySelectorAll("#formPopup input").forEach(i => i.value = "");
@@ -97,6 +132,3 @@ if (isMobile) {
     alert("❌ Failed to submit request. Try again.");
   }
 };
-
-
-
